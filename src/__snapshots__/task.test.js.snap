@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Task should render correctly according to snapshot 1`] = `
+<div>
+  <div
+    class="sc-bdVaJa jUIStS"
+  >
+    <span
+      class="sc-bwzfXH iLItXQ"
+    >
+      Learn React
+    </span>
+    <span
+      class="sc-htpNat hwgbR"
+    >
+      Learn react & redux
+    </span>
+  </div>
+</div>
+`;
