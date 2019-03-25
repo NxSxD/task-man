@@ -2,29 +2,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Task } from './task';
+import AddTask from './AddTask';
+import uuid from 'uuid';
 
 // LOGIC
 export class TaskManager extends React.Component {
   state = {
-    tasks: [
-      {
-        id: 'react',
-        title: 'Learn React',
-        description: 'Learn reactjs & redux',
-      },
-      { id: 'angular', title: 'Learn Angular', description: 'Learn angularjs' },
-      {
-        id: 'vue',
-        title: 'Learn Vue',
-        description: 'Learn vue and all its stuff',
-      },
-    ],
+    tasks: [],
     completed: [],
-  };
+    id: '',
+    title: '',
+    description: '',
+    };
 
-  onTaskClick = completedTaskId => {
+  onTaskClick = (completedTaskId, event) => {
+    console.log(event)
     console.log('Completed Task ID: ', completedTaskId);
-    const { tasks, completed } = this.state;
+    const { tasks, completed} = this.state;
 
     const newTaskList = tasks.filter(task => task.id !== completedTaskId);
     console.log('New Task List: ', newTaskList);
@@ -53,12 +47,43 @@ export class TaskManager extends React.Component {
     });
   };
 
+  resetForm = () => {
+    this.setState({
+      id: '',
+      title: '',
+      description: ''
+    });
+  }
+
+  idIncrementer = () => {
+    let incrementer = 0;
+    return ++incrementer;
+  }
+
+  onChangeHandler = event => {
+    this.setState({
+        [event.target.name]: event.target.value
+    })
+    console.log('On Change' + this.state)
+  }
+
+  onSubmitHandler = event => {
+    event.preventDefault();
+    const {tasks, title, description} = this.state;
+    this.setState({
+        tasks: [...tasks, {id: uuid(), title, description}]
+    });
+    this.resetForm()
+  }
+
   render() {
-    const { tasks, completed } = this.state;
+    const { tasks, completed} = this.state;
 
     return (
       <Container>
-        <Sidebar>Add Task</Sidebar>
+        <Sidebar>
+          <AddTask task={this.state} onChange={this.onChangeHandler} onSubmit={this.onSubmitHandler}/>
+        </Sidebar>
         <ContentContainer>
           <Content>
             {tasks &&
@@ -68,10 +93,11 @@ export class TaskManager extends React.Component {
                   <Task
                     key={task.id}
                     task={task}
-                    onClick={() => this.onTaskClick(task.id)}
+                    onClick={this.onTaskClick}
                   />
                 ))}
           </Content>
+          {console.log(tasks)}
           <BottomBar>
             {completed &&
               completed.map(completedTask => (
@@ -100,6 +126,22 @@ const Sidebar = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input {
+    margin-bottom: 5px;
+    width: 90%;
+  }
+
+  input[type="button"]{
+    cursor: pointer;
+  }
+  
 `;
 
 const ContentContainer = styled.div`
