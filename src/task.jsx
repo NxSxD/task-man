@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const Task = ({ task, ...restOfProps }) => {
+export const Task = (props) => {
+  const {task, onClick} = props;
+  console.log(props)
+ 
   return (
-    <TaskContainer {...restOfProps}>
+    <TaskContainer onClick={() => onClick(task.id)}>
       <TaskTitle>{task.title}</TaskTitle>
       <TaskDescription>{task.description}</TaskDescription>
     </TaskContainer>

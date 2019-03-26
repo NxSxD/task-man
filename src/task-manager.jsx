@@ -15,8 +15,7 @@ export class TaskManager extends React.Component {
     description: '',
     };
 
-  onTaskClick = (completedTaskId, event) => {
-    console.log(event)
+  onTaskClick = completedTaskId => {
     console.log('Completed Task ID: ', completedTaskId);
     const { tasks, completed} = this.state;
 
